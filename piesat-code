@@ -1,0 +1,22 @@
+# the code on the platform of piesat(https://engine.piesat.cn/engine/home)
+
+var border = City.filter(pie.Filter.eq('name',"合肥市")).first().geometry();
+
+var img = pie.ImageCollection('CAS/GLC_FCS30_2020')
+            .select("B1")
+            .filterBounds(border)
+            .mosaic()
+            .clip(border);
+
+var hefeilucc =img.where(img.gte(153), 0).where(img.lte(11),10).where(img.eq(20),0);
+Map.addLayer(hefeilucc,{},"HefeiLUcc")
+print(hefeilucc)
+Export.image({
+        image:img,
+        description: "hefeiLucc",
+        assetId: "hefeiLucc",
+        region:border,
+        floder:"Hefei",
+        scale:30,
+        maxPixels:1e13
+    });
